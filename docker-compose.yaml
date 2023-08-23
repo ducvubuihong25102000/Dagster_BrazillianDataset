@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: week1_mysql
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: demo_mysql
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ALLOW_EMPTY_PASSWORD: FALSE
+      MYSQL_RANDOM_ROOT_PASSWORD: admin 
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+  
+  postgres:
+    image: postgres:15
+    container_name: week1_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: demo_pg
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: week1_minio
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    command: ["server", "/data", "--console-address", ":9001"]
+    volumes:
+      - ./minio:/data
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+
+
+  
